@@ -3,21 +3,27 @@
 ### [Paper](https://arxiv.org/abs/2404.14951)
 
 ## Requirements
-- Python >= 3.9
-- GPU (NVIDIA CUDA compatible)
-  
+
 - Create a virtual environment (optional but recommended):
+```bash
+conda create -n srstitcher python==3.9
+conda activate srstitcher
+```
 
-    ```bash
-    conda create -n srstitcher python==3.9
-    conda activate srstitcher
-    ```
-    
+- Pytorch
+```bash
+pip install numpy==1.26.3 torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 --index-url https://download.pytorch.org/whl/cu118
+```
+
+- Core
+```bash
+pip install transformers==4.35.2 diffusers==0.27.2
+```
+
 - Install the required dependencies:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+pip install -r requirements.txt
+```
   
  **Notice: check `transformers==4.35.2` and `diffusers==0.27.2`, other version may report errors**
  
@@ -50,19 +56,19 @@ dataset
 
 ## Usage
 
-- Run the script to get SRStitcher results of Figure 2:
+- Download [stable-diffusion-2-inpainting](https://huggingface.co/stabilityai/stable-diffusion-2-inpainting) and put it in the `models` folder.
 
-    ```bash
-    python run.py  --config configs/inpaint_config.yaml
-    ```
+- Run the script to get SRStitcher results of Figure 2:
+```bash
+python run.py  --config configs/inpaint_config.yaml
+```
   
   see results in document `SRStitcherResults`.
   
 - Run the script to measure the CCS of stitched image:
-
-    ```bash
-    python evaluation_ccs.py
-    ```
+```bash
+python evaluation_ccs.py
+```
    
  - Run the script to get SRStitcher results of UDIS-D:
  
