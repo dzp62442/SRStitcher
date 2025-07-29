@@ -6,6 +6,7 @@ from diffusers import ControlNetModel, AutoencoderKL
 import math
 from omegaconf import OmegaConf
 import argparse
+import numpy as np
 
 from util.preprocessing import merged_img, preprocess_image, preprocess_map, make_inpaint_condition
 from util.weighted_mask import make_mask
@@ -21,7 +22,7 @@ def parse_args():
     parser.add_argument(
         "--config",
         type=str,
-        default="inpaint_config.yaml",
+        default="configs/inpaint_config.yaml",
     )
     args = parser.parse_args()
     return args

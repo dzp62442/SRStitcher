@@ -290,6 +290,7 @@ def get_stitched_result(input1_tensor, input2_tensor, rigid_mesh, mesh):
 # for test_output.py
 def build_output_model(net, input1_tensor, input2_tensor):
     batch_size, _, img_h, img_w = input1_tensor.size()
+    out_dict = {}  # 存储输出结果
 
     # resized_input1 = resize_512(input1_tensor)
     # resized_input2 = resize_512(input2_tensor)
@@ -327,8 +328,10 @@ def build_output_model(net, input1_tensor, input2_tensor):
 
     out_width = width_max - width_min
     out_height = height_max - height_min
-    #print(out_width)
-    #print(out_height)
+    if (out_height > 2500 or out_width > 5000):  # 拼接失败处理
+        print(f"out_width: {out_width}, out_height: {out_height}")
+        out_dict.update(success=False)
+        return out_dict
 
     # 处理img1，不进行变形，只应用缩放和平移矩阵
     M_tensor = torch.tensor([[out_width / 2.0, 0., out_width / 2.0],
@@ -361,9 +364,7 @@ def build_output_model(net, input1_tensor, input2_tensor):
     norm_mesh = get_norm_mesh(mesh_trans, out_height, out_width)
     tps_output = torch_tps_transform.transformer(torch.cat([input2_tensor+1, mask],1), norm_mesh, norm_rigid_mesh, (out_height.int(), out_width.int()))
 
-
-    out_dict = {}
-    out_dict.update(final_warp1=homo_output[:, 0:3, ...]-1, final_warp1_mask = homo_output[:, 3:6, ...], final_warp2=tps_output[:, 0:3, ...]-1, final_warp2_mask = tps_output[:, 3:6, ...], mesh1=rigid_mesh, mesh2=mesh_trans)
+    out_dict.update(success=True, final_warp1=homo_output[:, 0:3, ...]-1, final_warp1_mask = homo_output[:, 3:6, ...], final_warp2=tps_output[:, 0:3, ...]-1, final_warp2_mask = tps_output[:, 3:6, ...], mesh1=rigid_mesh, mesh2=mesh_trans)
 
     return out_dict
 
