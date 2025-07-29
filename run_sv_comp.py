@@ -219,8 +219,9 @@ def main(cfg):
             middle_stitch_result = cv2.cvtColor(middle_stitch_result, cv2.COLOR_RGB2BGR)
 
             # 保存结果
+            edited_image = edited_image.resize((w, h))
             name = f"{udis2_warp_cfg['input_img_num']}_{k+2}.jpg"
-            edited_image.resize((w, h)).save(os.path.join(path_result, name))
+            edited_image.save(os.path.join(path_result, name))
 
         print(f'processing image {idx}/{len(dataset)} completed')
 

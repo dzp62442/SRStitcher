@@ -1,3 +1,10 @@
+进行与 ChatStitch SV-UDIS 的对比实验：
+```bash
+python run_sv_comp.py
+```
+
+---
+
 # Reconstructing the Image Stitching Pipeline: Integrating Fusion and Rectangling into a Unified Inpainting Model
 
 ### [Paper](https://arxiv.org/abs/2404.14951)
